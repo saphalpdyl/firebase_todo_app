@@ -43,8 +43,6 @@ const Home: React.FC<HomeProps> = ({ uid, session }) => {
 	// Get todos of user
 	const [todos, setTodos] = useState<Todo[]>([]);
 
-	if (!uid) return <div>Loading...</div>;
-
 	useEffect(() => {
 		const unsub = onSnapshot(collection(db as Firestore, uid), (snapshot) => {
 			const newTodos = snapshot.docs.map((doc) => {
@@ -60,7 +58,7 @@ const Home: React.FC<HomeProps> = ({ uid, session }) => {
 	}, []);
 
 	// To prevent glitches from happening due to user entering the page using stolen JWT
-	if (user) {
+	if (user && uid) {
 		return (
 			<div className="home-container">
 				<button
